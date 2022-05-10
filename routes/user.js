@@ -2,13 +2,15 @@ const express = require("express");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
 const joi = require('joi');
+const fs = require("fs");
+const multer = require("multer");
 
 const { executeQuery } = require("../connection");
 const {logDB, authenticate} = require("../middleware");
 
 const key = "proyeksoa";
 const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-
+const uploadFolder = "profile_picture";
 
 const checkEmail = async (email) => {
     const cekEmail = await executeQuery(`select * from users where email = '${email}'`);
@@ -33,6 +35,24 @@ const generateUniqueApiKey = (length) => {
     return result;
 }
 
+function getFileExtension(filename){
+    filename = filename.split(".");
+    return filename[filename.length-1];
+}
+
+const storage = multer.diskStorage({
+    destination: "profile_picture/",
+    filename: function(req, file, cb){
+        const extension = getFileExtension(file.originalname);
+        const file_name = file.originalname.split(".")[0];
+        cb(null, file_name + "." + extension);
+    }
+});
+
+const upload = multer({
+    storage:storage,
+});
+
 
 router.post("/register", async function(req,res){
     const schema =
@@ -56,7 +76,7 @@ router.post("/register", async function(req,res){
     try {
         const apikey = generateUniqueApiKey(20);
         const {email, username, password, nama, no_telp, alamat} = req.body;
-        await executeQuery(`insert into users values(0, '${email}', '${username}', '${password}', '${nama}', '${no_telp}', '${alamat}', 0,'${apikey}')`);
+        await executeQuery(`insert into users values(0, '${email}', '${username}', '${password}', '${nama}', '${no_telp}', '${alamat}', 0, 'gambar','${apikey}')`);
         await executeQuery(`insert into plan values(0, '${apikey}', 'free')`);
 
         return res.status(201).send({
@@ -83,7 +103,7 @@ router.post("/login", async function(req,res){
             return res.status(400).send("Username/password salah!");
         }
 
-        const token = jwt.sign({email: cekUser[0].email, username: username, api_key: cekUser[0].api_key}, key, {expiresIn: '30m'});
+        const token = jwt.sign({user_id: cekUser[0].id, email: cekUser[0].email, username: username, api_key: cekUser[0].api_key}, key, {expiresIn: '30m'});
 
         return res.status(200).send({
             "email": cekUser[0].email,
@@ -120,6 +140,25 @@ router.post("/topup", [authenticate, logDB], async function(req,res){
     catch (err){
         return res.status(500).send(err.toString());
     }
+});
+
+router.put("/changeProfilePicture",[authenticate, logDB], upload.single("profile_picture"),async function(req,res){
+   try {
+       const userdata = req.userdata;
+       const extension = getFileExtension(req.file.originalname);
+       const path = "/profile_picture/" + userdata.user_id;
+
+       fs.renameSync(`${uploadFolder}/${req.file.filename}`, `${uploadFolder}/${userdata.user_id}.${extension}`);
+
+       await executeQuery(`update users set profile_picture = '${path}' where id = ${userdata.user_id}`);
+
+       return res.status(201).send({
+           "message":"Berhasil mengubah foto profil!"
+       });
+   }
+   catch (err){
+       return res.status(500).send(err.toString());
+   }
 });
 
 

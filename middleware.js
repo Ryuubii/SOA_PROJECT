@@ -4,14 +4,18 @@ const key = "proyeksoa";
 
 module.exports = {
     authenticate: async function (req, res, next){
-        if(!req.headers["x-auth-token"]){
-            return res.status(401).send({ "msg": "Unauthorized!" });
+        try {
+            if(!req.headers["x-auth-token"]){
+                return res.status(401).send({ "msg": "Unauthorized!" });
+            }
+            const header = req.headers["x-auth-token"];
+            const userdata = jwt.verify(header, key);
+            req.userdata= userdata;
+            next();
         }
-        const header = req.headers["x-auth-token"];
-        const userdata = jwt.verify(header, key);
-        req.userdata= userdata;
-
-        next();
+        catch (err){
+            return res.status(500).send(err.toString())
+        }
     },
     logDB: async function (req, res, next){
         const header = req.headers["x-auth-token"];
