@@ -1,38 +1,14 @@
 const express = require("express");
 const router = express.Router();
-const mysql = require("mysql");
 const jwt = require("jsonwebtoken");
 const joi = require('joi');
-const pool = mysql.createPool({
-    host: "localhost",
-    database: "proyek_soa",
-    user: "root",
-    password: ""
-});
+
+const { executeQuery } = require("../connection");
+const {logDB, authenticate} = require("../middleware");
 
 const key = "proyeksoa";
 const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
-function executeQuery(q){
-    return new Promise(function(resolve, reject){
-        pool.getConnection(function(err, conn){
-            if(err){
-                reject(err);
-            }
-            else{
-                conn.query(q, function(err, results){
-                    conn.release();
-                    if(err){
-                        reject(err);
-                    }
-                    else{
-                        resolve(results);
-                    }
-                });
-            }
-        });
-    });
-}
 
 const checkEmail = async (email) => {
     const cekEmail = await executeQuery(`select * from users where email = '${email}'`);
@@ -54,7 +30,6 @@ const generateUniqueApiKey = (length) => {
     for ( let i = 0; i < length; i++ ) {
         result += characters.charAt(Math.floor(Math.random() * charactersLength));
     }
-
     return result;
 }
 
@@ -81,7 +56,7 @@ router.post("/register", async function(req,res){
     try {
         const apikey = generateUniqueApiKey(20);
         const {email, username, password, nama, no_telp, alamat} = req.body;
-        await executeQuery(`insert into users values(0, '${email}', '${username}', '${password}', '${nama}', '${no_telp}', '${alamat}', '${apikey}')`);
+        await executeQuery(`insert into users values(0, '${email}', '${username}', '${password}', '${nama}', '${no_telp}', '${alamat}', 0,'${apikey}')`);
         await executeQuery(`insert into plan values(0, '${apikey}', 'free')`);
 
         return res.status(201).send({
@@ -113,6 +88,33 @@ router.post("/login", async function(req,res){
         return res.status(200).send({
             "email": cekUser[0].email,
             "token": token
+        })
+    }
+    catch (err){
+        return res.status(500).send(err.toString());
+    }
+});
+
+router.post("/topup", [authenticate, logDB], async function(req,res){
+
+    try {
+        const userdata = req.userdata;
+        const {jumlah} = req.body;
+
+        if(jumlah < 10000){
+            return res.status(400).send({
+                "message":"Jumlah tidak boleh kurang dari 10000"
+            })
+        }
+
+        const user = await executeQuery(`select * from users where email = '${userdata.email}'`);
+        const saldoLama = user[0].saldo;
+        const saldoBaru = parseInt(saldoLama) + parseInt(jumlah);
+        await executeQuery(`update users set saldo = ${saldoBaru} where email = '${userdata.email}'`);
+        return res.status(201).send({
+            "email":userdata.email,
+            "saldo lama": saldoLama,
+            "saldo baru": saldoBaru
         })
     }
     catch (err){

@@ -16,6 +16,21 @@ CREATE DATABASE /*!32312 IF NOT EXISTS*/`proyek_soa` /*!40100 DEFAULT CHARACTER 
 
 USE `proyek_soa`;
 
+/*Table structure for table `access_log` */
+
+DROP TABLE IF EXISTS `access_log`;
+
+CREATE TABLE `access_log` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `api_key` varchar(20) NOT NULL,
+  `path` varchar(255) NOT NULL,
+  `full_url` varchar(255) NOT NULL,
+  `accessed_at` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+/*Data for the table `access_log` */
+
 /*Table structure for table `plan` */
 
 DROP TABLE IF EXISTS `plan`;
@@ -44,14 +59,15 @@ CREATE TABLE `users` (
   `nama` varchar(255) NOT NULL,
   `no_telp` varchar(255) NOT NULL,
   `alamat` varchar(255) NOT NULL,
+  `saldo` int(11) NOT NULL,
   `api_key` varchar(20) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `users` */
 
-insert  into `users`(`id`,`email`,`username`,`password`,`nama`,`no_telp`,`alamat`,`api_key`) values 
-(1,'coba1@gmail.com','coba1','coba1','coba1','12345678912','jalan istts','eMz71fs2GfHfQ9Hp0yYl');
+insert  into `users`(`id`,`email`,`username`,`password`,`nama`,`no_telp`,`alamat`,`saldo`,`api_key`) values 
+(1,'coba1@gmail.com','coba1','coba1','coba1','12345678912','jalan istts',30000,'eMz71fs2GfHfQ9Hp0yYl');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
