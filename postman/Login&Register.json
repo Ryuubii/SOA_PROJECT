@@ -1,0 +1,104 @@
+{
+	"info": {
+		"_postman_id": "ca40f3c8-1447-4959-972b-af30b4b5ae90",
+		"name": "Proyek SOA",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "email",
+							"value": "coba1@gmail.com",
+							"type": "text"
+						},
+						{
+							"key": "username",
+							"value": "coba1",
+							"type": "text"
+						},
+						{
+							"key": "nama",
+							"value": "coba1",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "coba1",
+							"type": "text"
+						},
+						{
+							"key": "confirm_password",
+							"value": "coba1",
+							"type": "text"
+						},
+						{
+							"key": "alamat",
+							"value": "jalan istts",
+							"type": "text"
+						},
+						{
+							"key": "no_telp",
+							"value": "12345678912",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/api/user/register",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"user",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "coba1",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "coba1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/api/user/login",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"user",
+						"login"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
