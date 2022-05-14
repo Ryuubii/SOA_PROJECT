@@ -1,0 +1,532 @@
+{
+	"info": {
+		"_postman_id": "513a2da0-8d73-46b5-88e2-cfd6e153f7b3",
+		"name": "Proyek SOA",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "email",
+							"value": "coba2@gmail.com",
+							"type": "text"
+						},
+						{
+							"key": "username",
+							"value": "coba2",
+							"type": "text"
+						},
+						{
+							"key": "nama",
+							"value": "coba1",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "coba1",
+							"type": "text"
+						},
+						{
+							"key": "confirm_password",
+							"value": "coba1",
+							"type": "text"
+						},
+						{
+							"key": "alamat",
+							"value": "jalan istts",
+							"type": "text"
+						},
+						{
+							"key": "no_telp",
+							"value": "12345678912",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/api/user/register",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"user",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "coba1",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "coba1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/api/user/login",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"user",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Topup",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6ImNvYmExQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoiY29iYTEiLCJhcGlfa2V5IjoiZU16NzFmczJHZkhmUTlIcDB5WWwiLCJpYXQiOjE2NTI1MTQzNDMsImV4cCI6MTY1MjUxNjE0M30.HJyWm_1fmBAEO_nH6LsVVLqmkFf6eGPmYPrKzawOLAs",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "jumlah",
+							"value": "10000",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/api/user/topup",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"user",
+						"topup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Profile Picture",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6ImNvYmExQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoiY29iYTEiLCJhcGlfa2V5IjoiZU16NzFmczJHZkhmUTlIcDB5WWwiLCJpYXQiOjE2NTI1MTQzNDMsImV4cCI6MTY1MjUxNjE0M30.HJyWm_1fmBAEO_nH6LsVVLqmkFf6eGPmYPrKzawOLAs",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "profile_picture",
+							"type": "file",
+							"src": "/C:/Users/USER/Pictures/zinforevah.jfif"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/api/user/changeProfilePicture",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"user",
+						"changeProfilePicture"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search Anime",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6ImNvYmExQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoiY29iYTEiLCJhcGlfa2V5IjoiZU16NzFmczJHZkhmUTlIcDB5WWwiLCJpYXQiOjE2NTI1MTQzNDMsImV4cCI6MTY1MjUxNjE0M30.HJyWm_1fmBAEO_nH6LsVVLqmkFf6eGPmYPrKzawOLAs",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:3000/api/anime/search?q=t",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"anime",
+						"search"
+					],
+					"query": [
+						{
+							"key": "q",
+							"value": "t"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search Manga",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6ImNvYmExQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoiY29iYTEiLCJhcGlfa2V5IjoiZU16NzFmczJHZkhmUTlIcDB5WWwiLCJpYXQiOjE2NTI1MTQzNDMsImV4cCI6MTY1MjUxNjE0M30.HJyWm_1fmBAEO_nH6LsVVLqmkFf6eGPmYPrKzawOLAs",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:3000/api/manga/search?q=t",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"manga",
+						"search"
+					],
+					"query": [
+						{
+							"key": "q",
+							"value": "t"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Anime List",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6ImNvYmExQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoiY29iYTEiLCJhcGlfa2V5IjoiZU16NzFmczJHZkhmUTlIcDB5WWwiLCJpYXQiOjE2NTI1MTU1ODksImV4cCI6MTY1MjUxNzM4OX0.AO6sdmLpxeWG_OoQywlTekq8Quy0hIa1ZUVLW5yQxOc",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "nama_list",
+							"value": "anime1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/api/anime/addList",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"anime",
+						"addList"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Manga List",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6ImNvYmExQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoiY29iYTEiLCJhcGlfa2V5IjoiZU16NzFmczJHZkhmUTlIcDB5WWwiLCJpYXQiOjE2NTI1MTYwNjIsImV4cCI6MTY1MjUxNzg2Mn0.7giQeIyBVBvPSjSSes8fKM4TidLeC527oGWx2PusRxE",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "nama_list",
+							"value": "manga1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/api/manga/addList",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"manga",
+						"addList"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Rename Anime List",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6ImNvYmExQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoiY29iYTEiLCJhcGlfa2V5IjoiZU16NzFmczJHZkhmUTlIcDB5WWwiLCJpYXQiOjE2NTIxNjg2NjMsImV4cCI6MTY1MjE3MDQ2M30.c1sYhY1JVAoSrRnaWdc6bx315WYOSUrLWjXWHDscSJQ",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "list_id",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "nama_list",
+							"value": "anime2",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/api/anime/renameList",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"anime",
+						"renameList"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Rename Manga List",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6ImNvYmExQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoiY29iYTEiLCJhcGlfa2V5IjoiZU16NzFmczJHZkhmUTlIcDB5WWwiLCJpYXQiOjE2NTI1MTUwMjgsImV4cCI6MTY1MjUxNjgyOH0.N9G2ka1iGzrvkpddog3aULkWVCGIFS8qf4ddM8HI1R0",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "list_id",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "nama_list",
+							"value": "manga2",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/api/manga/renameList",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"manga",
+						"renameList"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Anime List",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6ImNvYmExQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoiY29iYTEiLCJhcGlfa2V5IjoiZU16NzFmczJHZkhmUTlIcDB5WWwiLCJpYXQiOjE2NTI1MTU1ODksImV4cCI6MTY1MjUxNzM4OX0.AO6sdmLpxeWG_OoQywlTekq8Quy0hIa1ZUVLW5yQxOc",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "list_id",
+							"value": "4",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/api/anime/deleteList",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"anime",
+						"deleteList"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Manga List",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6ImNvYmExQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoiY29iYTEiLCJhcGlfa2V5IjoiZU16NzFmczJHZkhmUTlIcDB5WWwiLCJpYXQiOjE2NTI1MTUwMjgsImV4cCI6MTY1MjUxNjgyOH0.N9G2ka1iGzrvkpddog3aULkWVCGIFS8qf4ddM8HI1R0",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "list_id",
+							"value": "2",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/api/manga/deleteList",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"manga",
+						"deleteList"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Anime List",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6ImNvYmExQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoiY29iYTEiLCJhcGlfa2V5IjoiZU16NzFmczJHZkhmUTlIcDB5WWwiLCJpYXQiOjE2NTIxNjg2NjMsImV4cCI6MTY1MjE3MDQ2M30.c1sYhY1JVAoSrRnaWdc6bx315WYOSUrLWjXWHDscSJQ",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": []
+				},
+				"url": {
+					"raw": "localhost:3000/api/anime/readList",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"anime",
+						"readList"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Manga List",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6ImNvYmExQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoiY29iYTEiLCJhcGlfa2V5IjoiZU16NzFmczJHZkhmUTlIcDB5WWwiLCJpYXQiOjE2NTI1MTUwMjgsImV4cCI6MTY1MjUxNjgyOH0.N9G2ka1iGzrvkpddog3aULkWVCGIFS8qf4ddM8HI1R0",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": []
+				},
+				"url": {
+					"raw": "localhost:3000/api/manga/readList",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"manga",
+						"readList"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

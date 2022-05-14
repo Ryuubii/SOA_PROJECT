@@ -128,9 +128,9 @@ router.post("/topup", [authenticate, logDB], async function(req,res){
         }
 
         const user = await executeQuery(`select * from users where email = '${userdata.email}'`);
-        const saldoLama = user[0].saldo;
+        const saldoLama = user[0].balance;
         const saldoBaru = parseInt(saldoLama) + parseInt(jumlah);
-        await executeQuery(`update users set saldo = ${saldoBaru} where email = '${userdata.email}'`);
+        await executeQuery(`update users set balance = ${saldoBaru} where email = '${userdata.email}'`);
         return res.status(201).send({
             "email":userdata.email,
             "saldo lama": saldoLama,
