@@ -38,6 +38,35 @@ router.get("/search", [authenticate, logDB], async function(req,res){
     }
 });
 
+//2
+router.get("/detail/:id", [authenticate, logDB], async function(req,res){
+    try {
+        const id = req.params.id;
+        const result = await axios.get(`https://api.jikan.moe/v4/anime/${id}`);
+        console.log(result.data);
+        const release_date = result.data.data.published.from;
+        const potong = release_date.toString().split('T')[0];
+        const tanggal = potong.split('-');
+        const tanggal_release = tanggal[2] +"-"+tanggal[1]+"-"+tanggal[0];
+        let item = [];
+        const r = {
+            "mal_id": result.data.data.mal_id,
+            "title": result.data.data.title,
+            "release_date": tanggal_release,
+            "type": result.data.data.type,
+            "chapters": result.data.data.chapters,
+            "volumes": result.data.data.volumes,
+            "synopsis": result.data.data.synopsis
+        }
+        item.push(r);
+        // console.log(item);
+        return res.status(200).send(item);
+    }
+    catch (err){
+        return res.status(500).send(err.toString());
+    }
+});
+
 //3
 router.get("/readList", [authenticate, logDB], async function(req,res){
    try {
@@ -149,5 +178,7 @@ router.delete("/deleteList", [authenticate, logDB], async function(req,res){
         return res.status(500).send(err.toString());
     }
 });
+
+
 
 module.exports = router;
