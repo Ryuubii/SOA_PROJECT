@@ -221,13 +221,15 @@ router.post("/addToList", [authenticate, logDB], async function(req,res){
                 release_tanggal = tanggal[0] +"-"+tanggal[1]+"-"+tanggal[2];
             }
             let item = [];
+            let title_fix = result.data.data.title.replace(/'/g, "#");
+            let synopsis_fix = result.data.data.synopsis.toString().replace(/'/g, "#");
             const r = {
                 "mal_id": result.data.data.mal_id,
-                "title": result.data.data.title,
+                "title": title_fix,
                 "type": result.data.data.type,
                 "chapters": result.data.data.chapters,
                 "volumes": result.data.data.volumes,
-                "synopsis": result.data.data.synopsis.toString(),
+                "synopsis": synopsis_fix,
                 "release_date": tanggal_release,
                 "list_id": parseInt(id_list_manga)
             }
@@ -236,7 +238,7 @@ router.post("/addToList", [authenticate, logDB], async function(req,res){
             const listItemCount = await executeQuery(`select list_item_count from manga_lists where list_id = '${id_list_manga}'`);
             const tambah = listItemCount[0].list_item_count + 1;
             await executeQuery(`update manga_lists set list_item_count = '${tambah}' where list_id = '${id_list_manga}'`);
-            return res.status(201).send({"message": "Berhasil menambahkan manga " + item[0].title + " ke list manga yang bernama " + cekList[0].list_name});
+            return res.status(201).send({"message": "Berhasil menambahkan manga " + result.data.data.title + " ke list manga yang bernama " + cekList[0].list_name});
         }
     }
     catch (err){
@@ -258,13 +260,15 @@ router.get("/readFromList", [authenticate, logDB], async function(req,res){
             const dataMangaList = await executeQuery(`select * from manga_list_items where list_id = '${id_list_manga}'`);
             let item = [];
             for (let i = 0; i < dataMangaList.length; i++) {
+                let title_fix = dataMangaList[i].title.replace(/#/g, "'");
+                let synopsis_fix = dataMangaList[i].synopsis.toString().replace(/#/g, "'");
                 item.push({
                     "mal_id": dataMangaList[i].mal_id,
-                    "title": dataMangaList[i].title,
+                    "title": title_fix,
                     "type": dataMangaList[i].type,
                     "chapters": dataMangaList[i].chapters,
                     "volumes": dataMangaList[i].volumes,
-                    "synopsis": dataMangaList[i].synopsis.toString(),
+                    "synopsis": synopsis_fix,
                     "release_date": String(dataMangaList[i].release_date.getDate()).padStart(2, '0')+ "-" + String(dataMangaList[i].release_date.getMonth() + 1).padStart(2, '0') + "-" + dataMangaList[i].release_date.getFullYear()
                 });
             }
