@@ -218,7 +218,7 @@ router.post("/addToList", [authenticate, logDB], async function(req,res){
             let release_tanggal = "";
             if(tanggal_release != '-'){
                 tanggal = tanggal_release.split('-');
-                release_tanggal = tanggal[0] +"-"+tanggal[1]+"-"+tanggal[2];
+                release_tanggal = tanggal[2] +"-"+tanggal[1]+"-"+tanggal[0];
             }
             let item = [];
             let title_fix = result.data.data.title.replace(/'/g, "#");
