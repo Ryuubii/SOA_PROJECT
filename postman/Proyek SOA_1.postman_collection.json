@@ -342,6 +342,52 @@
 			"response": []
 		},
 		{
+			"name": "Add Manga To Manga List",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6ImNvYmExQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoiY29iYTEiLCJhcGlfa2V5IjoiZU16NzFmczJHZkhmUTlIcDB5WWwiLCJpYXQiOjE2NTI3NjE4NTUsImV4cCI6MTY1Mjc2MzY1NX0.8VjGWgDN74cUEs38pAocenekA15n6hX206Khb4OYdzE",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "api_key",
+							"value": "eMz71fs2GfHfQ9Hp0yYl",
+							"type": "text"
+						},
+						{
+							"key": "id_list_manga",
+							"value": "3",
+							"type": "text"
+						},
+						{
+							"key": "id_manga",
+							"value": "136",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/api/manga/addToList",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"manga",
+						"addToList"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Rename Anime List",
 			"request": {
 				"method": "PUT",
@@ -496,6 +542,52 @@
 			"response": []
 		},
 		{
+			"name": "Delete Manga From Manga List",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6ImNvYmExQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoiY29iYTEiLCJhcGlfa2V5IjoiZU16NzFmczJHZkhmUTlIcDB5WWwiLCJpYXQiOjE2NTI3NjE4NTUsImV4cCI6MTY1Mjc2MzY1NX0.8VjGWgDN74cUEs38pAocenekA15n6hX206Khb4OYdzE",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "api_key",
+							"value": "eMz71fs2GfHfQ9Hp0yYl",
+							"type": "text"
+						},
+						{
+							"key": "id_list_manga",
+							"value": "3",
+							"type": "text"
+						},
+						{
+							"key": "id_manga",
+							"value": "136",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/api/manga/deleteFromList",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"manga",
+						"deleteFromList"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Get Anime List",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
@@ -562,7 +654,33 @@
 			"response": []
 		},
 		{
-			"name": "Add Manga To Manga List",
+			"name": "Get Random Manga",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6ImNvYmExQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoiY29iYTEiLCJhcGlfa2V5IjoiZU16NzFmczJHZkhmUTlIcDB5WWwiLCJpYXQiOjE2NTI3NjM2ODIsImV4cCI6MTY1Mjc2NTQ4Mn0.jHDh1KMOmjIWYClts_aFQl_rvWLtJIc3fOai6e4gMDo",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:3000/api/manga/random",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"manga",
+						"random"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Manga From Manga List",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -571,7 +689,7 @@
 				"header": [
 					{
 						"key": "x-auth-token",
-						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6ImNvYmExQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoiY29iYTEiLCJhcGlfa2V5IjoiZU16NzFmczJHZkhmUTlIcDB5WWwiLCJpYXQiOjE2NTI3MDk5MDAsImV4cCI6MTY1MjcxMTcwMH0.4Gdyi4JGCYTj83qIJeaHC7eidQQS530tP9AZn8CIbpA",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6ImNvYmExQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoiY29iYTEiLCJhcGlfa2V5IjoiZU16NzFmczJHZkhmUTlIcDB5WWwiLCJpYXQiOjE2NTI3NTk5MzksImV4cCI6MTY1Mjc2MTczOX0.RB9OcwNsIC1UADT4lpoO-ZdI0c2eJnL6PZ5y_7HRycE",
 						"type": "text"
 					}
 				],
@@ -587,16 +705,11 @@
 							"key": "id_list_manga",
 							"value": "3",
 							"type": "text"
-						},
-						{
-							"key": "id_manga",
-							"value": "122",
-							"type": "text"
 						}
 					]
 				},
 				"url": {
-					"raw": "localhost:3000/api/manga/addToList",
+					"raw": "localhost:3000/api/manga/readFromList",
 					"host": [
 						"localhost"
 					],
@@ -604,7 +717,7 @@
 					"path": [
 						"api",
 						"manga",
-						"addToList"
+						"readFromList"
 					]
 				}
 			},
