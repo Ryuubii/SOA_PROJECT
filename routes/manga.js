@@ -14,20 +14,34 @@ const checkListAnime = async (list_id) => {
     }
 }
 
+function releaseDate(tahun){
+    const release_date = tahun;
+    let potong = "";
+    let tanggal = "";
+    let tanggal_release = "";
+    if(release_date != null){
+        potong = release_date.toString().split('T')[0];
+        tanggal = potong.split('-');
+        tanggal_release = tanggal[2] +"-"+tanggal[1]+"-"+tanggal[0];
+    }
+    else{
+        tanggal_release = "-";
+    }
+    return tanggal_release;
+}
+
 //1
 router.get("/search", [authenticate, logDB], async function(req,res){
     try {
         let resutls = [];
         const {q} = req.query;
         const result = await axios.get(`https://api.jikan.moe/v4/manga?q='${q}'`);
-        console.log(result.data);
         for (let i = 0;i<result.data.data.length;i++){
+            const release_date = releaseDate(result.data.data[i].published.from);
             const r = {
                 "mal_id": result.data.data[i].mal_id,
                 "title": result.data.data[i].title,
-                "type": result.data.data[i].type,
-                "chapters": result.data.data[i].chapters,
-                "synopsis": result.data.data[i].synopsis
+                "release_date": release_date,
             }
 
             resutls.push(r);
@@ -44,23 +58,18 @@ router.get("/detail/:id", [authenticate, logDB], async function(req,res){
     try {
         const id = req.params.id;
         const result = await axios.get(`https://api.jikan.moe/v4/manga/${id}`);
-        console.log(result.data);
-        const release_date = result.data.data.published.from;
-        const potong = release_date.toString().split('T')[0];
-        const tanggal = potong.split('-');
-        const tanggal_release = tanggal[2] +"-"+tanggal[1]+"-"+tanggal[0];
+        const tanggal_release = releaseDate(result.data.data.published.from);
         let item = [];
         const r = {
             "mal_id": result.data.data.mal_id,
             "title": result.data.data.title,
-            "release_date": tanggal_release,
             "type": result.data.data.type,
             "chapters": result.data.data.chapters,
             "volumes": result.data.data.volumes,
-            "synopsis": result.data.data.synopsis
+            "synopsis": result.data.data.synopsis,
+            "release_date": tanggal_release,
         }
         item.push(r);
-        // console.log(item);
         return res.status(200).send(item);
     }
     catch (err){
@@ -169,7 +178,6 @@ router.delete("/deleteList", [authenticate, logDB], async function(req,res){
         const {list_id} = req.body;
 
         const mangaList = await executeQuery(`select * from manga_lists where list_id = ${list_id}`);
-        console.log("masuk");
         await executeQuery(`delete from manga_list_items where list_id = ${list_id}`);
         await executeQuery(`delete from manga_lists where list_id = ${list_id}`);
 
@@ -184,7 +192,6 @@ router.delete("/deleteList", [authenticate, logDB], async function(req,res){
 router.post("/addToList", [authenticate, logDB], async function(req,res){
     const schema =
         joi.object({
-            api_key: joi.string().required(),
             id_list_manga: joi.number().required(),
             id_manga: joi.number().required()
         })
@@ -198,37 +205,38 @@ router.post("/addToList", [authenticate, logDB], async function(req,res){
 
     try {
         const userdata = req.userdata;
-        const {api_key, id_list_manga, id_manga} = req.body;
-        const cekUser = await executeQuery(`select * from users where api_key = '${api_key}'`);
-        if(cekUser.length < 1){
-            return res.status(404).send({"message" : "User tidak ditemukan"});
+        const {id_list_manga, id_manga} = req.body;
+
+        const cekList = await executeQuery(`select * from manga_lists where list_id = '${id_list_manga}' and user_id = ${userdata.user_id}`);
+        if(cekList.length < 1){
+            return res.status(404).send({"message" : "List manga tidak ditemukan"});
         }
         else{
-            const cekList = await executeQuery(`select * from manga_lists where list_id = '${id_list_manga}'`);
-            if(cekList.length < 1){
-                return res.status(404).send({"message" : "List manga tidak ditemukan"});
+            const result = await axios.get(`https://api.jikan.moe/v4/manga/${id_manga}`);
+            const tanggal_release = releaseDate(result.data.data.published.from);
+            let tanggal = "";
+            let release_tanggal = "";
+            if(tanggal_release != '-'){
+                tanggal = tanggal_release.split('-');
+                release_tanggal = tanggal[0] +"-"+tanggal[1]+"-"+tanggal[2];
             }
-            else{
-                const result = await axios.get(`https://api.jikan.moe/v4/manga/${id_manga}`);
-                console.log(result.data);
-                let item = [];
-                const r = {
-                    "mal_id": result.data.data.mal_id,
-                    "title": result.data.data.title,
-                    "type": result.data.data.type,
-                    "chapters": result.data.data.chapters,
-                    "volumes": result.data.data.volumes,
-                    "synopsis": result.data.data.synopsis.toString(),
-                    "list_id": parseInt(id_list_manga)
-                }
-                item.push(r);
-                console.log(r);
-                await executeQuery(`insert into manga_list_items values(0, ${item[0].mal_id},'${item[0].title}','${item[0].type}',${item[0].chapters},${item[0].volumes},'${item[0].synopsis}',${id_list_manga})`);
-                const listItemCount = await executeQuery(`select list_item_count from manga_lists where list_id = '${id_list_manga}'`);
-                const tambah = listItemCount[0].list_item_count + 1;
-                await executeQuery(`update manga_lists set list_item_count = '${tambah}' where list_id = '${id_list_manga}'`);
-                return res.status(201).send({"message": "Berhasil menambahkan manga " + item[0].title + " ke list manga yang bernama " + cekList[0].list_name});
+            let item = [];
+            const r = {
+                "mal_id": result.data.data.mal_id,
+                "title": result.data.data.title,
+                "type": result.data.data.type,
+                "chapters": result.data.data.chapters,
+                "volumes": result.data.data.volumes,
+                "synopsis": result.data.data.synopsis.toString(),
+                "release_date": tanggal_release,
+                "list_id": parseInt(id_list_manga)
             }
+            item.push(r);
+            await executeQuery(`insert into manga_list_items values(0, ${item[0].mal_id},'${item[0].title}','${item[0].type}',${item[0].chapters},${item[0].volumes},'${item[0].synopsis}', '${release_tanggal}',${id_list_manga})`);
+            const listItemCount = await executeQuery(`select list_item_count from manga_lists where list_id = '${id_list_manga}'`);
+            const tambah = listItemCount[0].list_item_count + 1;
+            await executeQuery(`update manga_lists set list_item_count = '${tambah}' where list_id = '${id_list_manga}'`);
+            return res.status(201).send({"message": "Berhasil menambahkan manga " + item[0].title + " ke list manga yang bernama " + cekList[0].list_name});
         }
     }
     catch (err){
@@ -240,32 +248,27 @@ router.post("/addToList", [authenticate, logDB], async function(req,res){
 router.get("/readFromList", [authenticate, logDB], async function(req,res){
     try {
         const userdata = req.userdata;
-        const {api_key, id_list_manga} = req.body;
-        const cekUser = await executeQuery(`select * from users where api_key = '${api_key}'`);
-        if(cekUser.length < 1){
-            return res.status(404).send({"message" : "User tidak ditemukan"});
+        const {id_list_manga} = req.body;
+
+        const cekList = await executeQuery(`select * from manga_lists where list_id = '${id_list_manga}' and user_id = ${userdata.user_id}`);
+        if(cekList.length < 1){
+            return res.status(404).send({"message" : "List manga tidak ditemukan"});
         }
         else{
-            const cekList = await executeQuery(`select * from manga_lists where list_id = '${id_list_manga}'`);
-            if(cekList.length < 1){
-                return res.status(404).send({"message" : "List manga tidak ditemukan"});
+            const dataMangaList = await executeQuery(`select * from manga_list_items where list_id = '${id_list_manga}'`);
+            let item = [];
+            for (let i = 0; i < dataMangaList.length; i++) {
+                item.push({
+                    "mal_id": dataMangaList[i].mal_id,
+                    "title": dataMangaList[i].title,
+                    "type": dataMangaList[i].type,
+                    "chapters": dataMangaList[i].chapters,
+                    "volumes": dataMangaList[i].volumes,
+                    "synopsis": dataMangaList[i].synopsis.toString(),
+                    "release_date": String(dataMangaList[i].release_date.getDate()).padStart(2, '0')+ "-" + String(dataMangaList[i].release_date.getMonth() + 1).padStart(2, '0') + "-" + dataMangaList[i].release_date.getFullYear()
+                });
             }
-            else{
-                const dataMangaList = await executeQuery(`select * from manga_list_items where list_id = '${id_list_manga}'`);
-                let item = [];
-                for (let i = 0; i < dataMangaList.length; i++) {
-                    item.push({
-                        "mal_id": dataMangaList[i].mal_id,
-                        "title": dataMangaList[i].title,
-                        "type": dataMangaList[i].type,
-                        "chapters": dataMangaList[i].chapters,
-                        "volumes": dataMangaList[i].volumes,
-                        "synopsis": dataMangaList[i].synopsis.toString()
-                    });
-                }
-                console.log(item);
-                return res.status(200).send(item);
-            }
+            return res.status(200).send(item);
         }
     }
     catch (err){
@@ -277,30 +280,26 @@ router.get("/readFromList", [authenticate, logDB], async function(req,res){
 router.delete("/deleteFromList", [authenticate, logDB], async function(req,res){
     try {
         const userdata = req.userdata;
-        const {api_key, id_list_manga, id_manga} = req.body;
-        const cekUser = await executeQuery(`select * from users where api_key = '${api_key}'`);
-        if(cekUser.length < 1){
-            return res.status(404).send({"message" : "User tidak ditemukan"});
+        const {id_list_manga, id_manga} = req.body;
+
+        const cekList = await executeQuery(`select * from manga_lists where list_id = '${id_list_manga}' and user_id = ${userdata.user_id}`);
+        if(cekList.length < 1){
+            return res.status(404).send({"message" : "List manga tidak ditemukan"});
         }
         else{
-            const cekList = await executeQuery(`select * from manga_lists where list_id = '${id_list_manga}'`);
-            if(cekList.length < 1){
-                return res.status(404).send({"message" : "List manga tidak ditemukan"});
+            const cekManga = await executeQuery(`select * from manga_list_items where mal_id = '${id_manga}' and list_id = '${id_list_manga}'`);
+            if(cekManga.length < 1){
+                return res.status(404).send({"message" : "Manga tidak ditemukan dari list"});
             }
             else{
-                const cekManga = await executeQuery(`select * from manga_list_items where mal_id = '${id_manga}' and list_id = '${id_list_manga}'`);
-                if(cekManga.length < 1){
-                    return res.status(404).send({"message" : "Manga tidak ditemukan dari list"});
-                }
-                else{
-                    await executeQuery(`delete from manga_list_items where mal_id = '${id_manga}' and list_id = '${id_list_manga}'`);
-                    const listItemCount = await executeQuery(`select list_item_count from manga_lists where list_id = ${id_list_manga}`);
-                    const kurang = listItemCount[0].list_item_count - 1;
-                    await executeQuery(`update manga_lists set list_item_count = '${kurang}' where list_id = '${id_list_manga}'`);
-                    return res.status(201).send({"message": "Berhasil menghapus manga dari list "});
-                }   
+                await executeQuery(`delete from manga_list_items where mal_id = '${id_manga}' and list_id = '${id_list_manga}'`);
+                const listItemCount = await executeQuery(`select list_item_count from manga_lists where list_id = ${id_list_manga}`);
+                const kurang = listItemCount[0].list_item_count - 1;
+                await executeQuery(`update manga_lists set list_item_count = '${kurang}' where list_id = '${id_list_manga}'`);
+                return res.status(201).send({"message": "Berhasil menghapus manga dari list "});
             }
         }
+
     }
     catch (err){
         return res.status(500).send(err.toString());
@@ -311,23 +310,18 @@ router.delete("/deleteFromList", [authenticate, logDB], async function(req,res){
 router.get("/random", [authenticate, logDB], async function(req,res){
     try {
         const result = await axios.get(`https://api.jikan.moe/v4/random/manga`);
-        console.log(result.data);
-        const release_date = result.data.data.published.from;
-        const potong = release_date.toString().split('T')[0];
-        const tanggal = potong.split('-');
-        const tanggal_release = tanggal[2] +"-"+tanggal[1]+"-"+tanggal[0];
+        const tanggal_release = releaseDate(result.data.data.published.from);
         let item = [];
         const r = {
             "mal_id": result.data.data.mal_id,
             "title": result.data.data.title,
-            "release_date": tanggal_release,
             "type": result.data.data.type,
             "chapters": result.data.data.chapters,
             "volumes": result.data.data.volumes,
-            "synopsis": result.data.data.synopsis
+            "synopsis": result.data.data.synopsis,
+            "release_date": tanggal_release
         }
         item.push(r);
-        // console.log(item);
         return res.status(200).send(item);
     }
     catch (err){

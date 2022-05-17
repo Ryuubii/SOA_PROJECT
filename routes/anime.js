@@ -14,6 +14,22 @@ const checkListAnime = async (list_id) => {
     }
 }
 
+function releaseDate(tahun){
+    const release_date = tahun;
+    let potong = "";
+    let tanggal = "";
+    let tanggal_release = "";
+    if(release_date != null){
+        potong = release_date.toString().split('T')[0];
+        tanggal = potong.split('-');
+        tanggal_release = tanggal[2] +"-"+tanggal[1]+"-"+tanggal[0];
+    }
+    else{
+        tanggal_release = "-";
+    }
+    return tanggal_release;
+}
+
 //1
 router.get("/search", [authenticate, logDB], async function(req,res){
     try {
@@ -21,14 +37,12 @@ router.get("/search", [authenticate, logDB], async function(req,res){
         const {q} = req.query;
         const result = await axios.get(`https://api.jikan.moe/v4/anime?q='${q}'`);
         for (let i = 0;i<result.data.data.length;i++){
+            const tanggal_release = releaseDate(result.data.data[i].aired.from);
             const r = {
                 "mal_id": result.data.data[i].mal_id,
                 "title": result.data.data[i].title,
-                "type": result.data.data[i].type,
-                "episodes": result.data.data[i].episodes,
-                "synopsis": result.data.data[i].synopsis
+                "release_date": tanggal_release
             }
-
             resutls.push(r);
         }
         return res.status(200).send(resutls);
@@ -44,15 +58,16 @@ router.get("/detail/:id", [authenticate, logDB], async function(req,res){
         const id = req.params.id;
         const result = await axios.get(`https://api.jikan.moe/v4/anime/${id}`);
         console.log(result.data);
+        const tanggal_release = releaseDate(result.data.data[i].aired.from);
         let item = [];
         const r = {
             "mal_id": result.data.data.mal_id,
             "title": result.data.data.title,
-            "year": result.data.data.year,
             "type": result.data.data.type,
             "episodes": result.data.data.episodes,
             "airing": result.data.data.airing,
-            "score": result.data.data.score
+            "score": result.data.data.score,
+            "release_date": tanggal_release
         }
         item.push(r);
         // console.log(item);
