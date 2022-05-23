@@ -23,4 +23,16 @@ module.exports = {
         await executeQuery(`insert into access_log values (0, '${userdata.api_key}', '${req.path}', '${req.url}', now())`);
         next();
     },
+    rateLimti:async function(req,res,next){
+        const userdata = req.userdata;
+        const plan = await executeQuery(`select * from plan where api_key = '${userdata.api_key}'`);
+        if(plan[0].type == "free"){
+            let accesses = await executeQuery(`select * from access_log where accessed_at > now() - interval 10 second and api_key = '${userdata.api_key}'`);
+            if(accesses.length >= 1){
+                return res.status(429).send("Akses anda melebihi batas!")
+            }
+        }
+
+        next();
+    },
 }

@@ -4,7 +4,7 @@ const joi = require('joi');
 const axios = require('axios');
 
 const { executeQuery } = require("../connection");
-const {logDB, authenticate} = require("../middleware");
+const {logDB, authenticate, rateLimti} = require("../middleware");
 const {response} = require("express");
 
 const checkListAnime = async (list_id) => {
@@ -31,7 +31,7 @@ function releaseDate(tahun){
 }
 
 //1
-router.get("/search", [authenticate, logDB], async function(req,res){
+router.get("/search", [authenticate, rateLimti, logDB], async function(req,res){
     try {
         let resutls = [];
         const {q} = req.query;
@@ -53,7 +53,7 @@ router.get("/search", [authenticate, logDB], async function(req,res){
 });
 
 //2
-router.get("/detail/:id", [authenticate, logDB], async function(req,res){
+router.get("/detail/:id", [authenticate, rateLimti, logDB], async function(req,res){
     try {
         const id = req.params.id;
         const result = await axios.get(`https://api.jikan.moe/v4/anime/${id}`);
@@ -79,7 +79,7 @@ router.get("/detail/:id", [authenticate, logDB], async function(req,res){
 });
 
 //3
-router.get("/readList", [authenticate, logDB], async function(req,res){
+router.get("/readList", [authenticate, rateLimti, logDB], async function(req,res){
    try {
        const userdata = req.userdata;
        const animeLists = [];
@@ -101,7 +101,7 @@ router.get("/readList", [authenticate, logDB], async function(req,res){
 });
 
 //4
-router.post("/addList", [authenticate, logDB], async function(req,res){
+router.post("/addList", [authenticate, rateLimti, logDB], async function(req,res){
     const schema =
         joi.object({
             nama_list: joi.string().required(),
@@ -127,7 +127,7 @@ router.post("/addList", [authenticate, logDB], async function(req,res){
 });
 
 //5
-router.put("/renameList", [authenticate, logDB], async function(req, res){
+router.put("/renameList", [authenticate, rateLimti, logDB], async function(req, res){
     const schema =
         joi.object({
             list_id: joi.string().external(checkListAnime).required(),
@@ -162,7 +162,7 @@ router.put("/renameList", [authenticate, logDB], async function(req, res){
 });
 
 //6
-router.delete("/deleteList", [authenticate, logDB], async function(req,res){
+router.delete("/deleteList", [authenticate, rateLimti, logDB], async function(req,res){
     const schema =
         joi.object({
             list_id: joi.string().external(checkListAnime).required(),
