@@ -190,6 +190,144 @@ router.delete("/deleteList", [authenticate, rateLimti, logDB], async function(re
     }
 });
 
+//7
+router.post("/addToList", [authenticate, rateLimti, logDB], async function(req,res){
+    const schema =
+        joi.object({
+            id_list_anime: joi.number().required(),
+            id_anime: joi.number().required()
+        })
 
+    try {
+        await schema.validateAsync(req.body);
+    }
+    catch (err) {
+        return res.status(403).send(err.toString());
+    }
+
+    try {
+        const userdata = req.userdata;
+        const {id_list_anime, id_anime} = req.body;
+
+        const cekList = await executeQuery(`select * from anime_lists where list_id = '${id_list_anime}' and user_id = ${userdata.user_id}`);
+        if(cekList.length < 1){
+            return res.status(404).send({"message" : "List anime tidak ditemukan"});
+        }
+        else{
+            const result = await axios.get(`https://api.jikan.moe/v4/anime/${id_anime}`);
+            const tanggal_release = releaseDate(result.data.data.published.from);
+            let tanggal = "";
+            let release_tanggal = "";
+            if(tanggal_release != '-'){
+                tanggal = tanggal_release.split('-');
+                release_tanggal = tanggal[2] +"-"+tanggal[1]+"-"+tanggal[0];
+            }
+            let title_fix = result.data.data.title.replace(/'/g, "#");
+            let synopsis_fix = result.data.data.synopsis.toString().replace(/'/g, "#");
+            const r = {
+                "mal_id": result.data.data.mal_id,
+                "title": title_fix,
+                "type": result.data.data.type,
+                "episodes": result.data.data.episodes,
+                "synopsis": synopsis_fix,
+                "release_date": tanggal_release,
+                "list_id": parseInt(id_list_anime)
+            }
+            await executeQuery(`insert into anime_list_items values(0, ${r.mal_id},'${r.title}','${r.type}',${r.episodes},'${r.synopsis}', '${release_tanggal}',${id_list_anime})`);
+            const listItemCount = await executeQuery(`select list_item_count from anime_lists where list_id = '${id_list_anime}'`);
+            const tambah = listItemCount[0].list_item_count + 1;
+            await executeQuery(`update anime_lists set list_item_count = '${tambah}' where list_id = '${id_list_anime}'`);
+            return res.status(201).send({"message": "Berhasil menambahkan anime " + result.data.data.title + " ke list anime yang bernama " + cekList[0].list_name});
+        }
+    }
+    catch (err){
+        return res.status(500).send(err.toString());
+    }
+});
+
+//8
+router.get("/readFromList", [authenticate, rateLimti, logDB], async function(req,res){
+    try {
+        const userdata = req.userdata;
+        const {id_list_anime} = req.body;
+
+        const cekList = await executeQuery(`select * from anime_lists where list_id = '${id_list_anime}' and user_id = ${userdata.user_id}`);
+        if(cekList.length < 1){
+            return res.status(404).send({"message" : "List anime tidak ditemukan"});
+        }
+        else{
+            const dataanimeList = await executeQuery(`select * from anime_list_items where list_id = '${id_list_anime}'`);
+            let item = [];
+            for (let i = 0; i < dataanimeList.length; i++) {
+                let title_fix = dataanimeList[i].title.replace(/#/g, "'");
+                let synopsis_fix = dataanimeList[i].synopsis.toString().replace(/#/g, "'");
+                item.push({
+                    "mal_id": dataanimeList[i].mal_id,
+                    "title": title_fix,
+                    "type": dataanimeList[i].type,
+                    "episodes": dataanimeList[i].episodes,
+                    "synopsis": synopsis_fix,
+                    "release_date": String(dataanimeList[i].release_date.getDate()).padStart(2, '0')+ "-" + String(dataanimeList[i].release_date.getMonth() + 1).padStart(2, '0') + "-" + dataanimeList[i].release_date.getFullYear()
+                });
+            }
+            return res.status(200).send(item);
+        }
+    }
+    catch (err){
+        return res.status(500).send(err.toString());
+    }
+});
+
+//9
+router.delete("/deleteFromList", [authenticate, rateLimti, logDB], async function(req,res){
+    try {
+        const userdata = req.userdata;
+        const {id_list_anime, id_anime} = req.body;
+
+        const cekList = await executeQuery(`select * from anime_lists where list_id = '${id_list_anime}' and user_id = ${userdata.user_id}`);
+        if(cekList.length < 1){
+            return res.status(404).send({"message" : "List anime tidak ditemukan"});
+        }
+        else{
+            const cekanime = await executeQuery(`select * from anime_list_items where mal_id = '${id_anime}' and list_id = '${id_list_anime}'`);
+            if(cekanime.length < 1){
+                return res.status(404).send({"message" : "anime tidak ditemukan dari list"});
+            }
+            else{
+                await executeQuery(`delete from anime_list_items where mal_id = '${id_anime}' and list_id = '${id_list_anime}'`);
+                const listItemCount = await executeQuery(`select list_item_count from anime_lists where list_id = ${id_list_anime}`);
+                const kurang = listItemCount[0].list_item_count - 1;
+                await executeQuery(`update anime_lists set list_item_count = '${kurang}' where list_id = '${id_list_anime}'`);
+                return res.status(201).send({"message": "Berhasil menghapus anime dari list "});
+            }
+        }
+
+    }
+    catch (err){
+        return res.status(500).send(err.toString());
+    }
+});
+
+//10
+router.get("/random", [authenticate, rateLimti, logDB], async function(req,res){
+    try {
+        const result = await axios.get(`https://api.jikan.moe/v4/random/anime`);
+        const tanggal_release = releaseDate(result.data.data.published.from);
+        let item = [];
+        const r = {
+            "mal_id": result.data.data.mal_id,
+            "title": result.data.data.title,
+            "type": result.data.data.type,
+            "episodes": result.data.data.episodes,
+            "synopsis": result.data.data.synopsis,
+            "release_date": tanggal_release
+        }
+        item.push(r);
+        return res.status(200).send(item);
+    }
+    catch (err){
+        return res.status(500).send(err.toString());
+    }
+});
 
 module.exports = router;
