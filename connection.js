@@ -1,9 +1,9 @@
 const mysql = require("mysql");
 const pool = mysql.createPool({
-    host: "localhost",
-    database: "proyek_soa",
-    user: "root",
-    password: ""
+    host: "remotemysql.com",
+    database: "7T0Y5Gv5IN",
+    user: "7T0Y5Gv5IN",
+    password: "kXTh9rb5nw"
 });
 
 function executeQuery(q){
