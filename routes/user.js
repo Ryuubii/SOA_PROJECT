@@ -161,5 +161,96 @@ router.put("/changeProfilePicture",[authenticate, logDB], upload.single("profile
    }
 });
 
+router.post("/upgradepremium", [authenticate, logDB], async function(req,res){
+    const userdata = req.userdata;
+    try {
+        const plan = await executeQuery(`select * from plan where api_key = '${userdata.api_key}'`);
+        if(plan[0].type == "premium"){
+           
+            return res.status(429).send("akun anda sudah premium!")
+            
+        }
+        const requestuser = await executeQuery(`select * from request_upgrade where user_id = ${userdata.user_id}`);
+        console.log(requestuser);
+        if(requestuser.length>0){
+           
+            return res.status(429).send("anda sudah pernah request upgrade premium!")
+            
+        }
+        await executeQuery(`insert into request_upgrade values(0, ${userdata.user_id}, 0)`);
+        
+        return res.status(201).send({
+            "message":"user dengan username "+userdata.username+" berhasil meminta request upgrade",
+        })
+    }
+    catch (err){
+        return res.status(500).send(err.toString());
+    }
+});
+
+router.post("/bill", [authenticate, logDB], async function(req,res){
+    const userdata = req.userdata;
+    try {
+        const plan = await executeQuery(`select * from plan where api_key = '${userdata.api_key}'`);
+        if(plan[0].type == "premium"){
+           
+            return res.status(429).send("akun anda sudah premium!")
+            
+        }
+        const requestuser = await executeQuery(`select * from request_upgrade where user_id = ${userdata.user_id}`);
+        console.log(requestuser);
+        if(requestuser.length>0){
+            return res.status(201).send({
+                "email":userdata.email,
+                "Biaya Tagihan": 694200,
+            })
+        }
+        
+        return res.status(201).send({
+            "message":"user dengan username "+userdata.username+" belum pernah melakukan request upgrade",
+        })
+    }
+    catch (err){
+        return res.status(500).send(err.toString());
+    }
+});
+
+router.post("/pay", [authenticate, logDB], async function(req,res){
+    const userdata = req.userdata;
+    try {
+        const plan = await executeQuery(`select * from plan where api_key = '${userdata.api_key}'`);
+        if(plan[0].type == "premium"){
+           
+            return res.status(429).send("akun anda sudah premium!")
+            
+        }
+        const requestuser = await executeQuery(`select * from request_upgrade where user_id = ${userdata.user_id}`);
+        console.log(requestuser);
+        if(requestuser.length>0){
+            const user = await executeQuery(`select * from users where email = '${userdata.email}'`);
+            const saldoLama = user[0].balance;
+            if(saldoLama<694200){
+                return res.status(429).send("saldo anda tidak cukup!")
+            }
+            const variabel=1;
+            const saldoBaru = parseInt(saldoLama) - 694200;
+            await executeQuery(`update users set balance = ${saldoBaru} where email = '${userdata.email}'`);
+            await executeQuery(`update plan set type = 'premium' where api_key = '${userdata.api_key}'`);
+            const hasil=await executeQuery(`update request_upgrade set status = ${variabel} where user_id = ${userdata.user_id}`);
+            console.log(hasil);
+            return res.status(201).send({
+                "message":"user dengan username "+userdata.username+" Berhasil melakukan upgrade plan"
+            });
+        }
+        
+        return res.status(201).send({
+            "message":"user dengan username "+userdata.email+" belum pernah melakukan request upgrade",
+        })
+    }
+    catch (err){
+        return res.status(500).send(err.toString());
+    }
+});
+
 
 module.exports = router;
