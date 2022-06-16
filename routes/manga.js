@@ -192,6 +192,7 @@ router.delete("/deleteList", [authenticate, rateLimti, logDB], async function(re
 router.post("/addToList", [authenticate, rateLimti, logDB], async function(req,res){
     const schema =
         joi.object({
+            api_key: joi.string().required(),
             id_list_manga: joi.number().required(),
             id_manga: joi.number().required()
         })
@@ -224,7 +225,7 @@ router.post("/addToList", [authenticate, rateLimti, logDB], async function(req,r
             let title_fix = result.data.data.title.replace(/'/g, "#");
             let synopsis_fix = result.data.data.synopsis.toString().replace(/'/g, "#");
             const r = {
-                "mal_id": result.data.data.mal_id,
+                "mal_id": result.data.data.mal_id,  
                 "title": title_fix,
                 "type": result.data.data.type,
                 "chapters": result.data.data.chapters,
@@ -300,7 +301,7 @@ router.delete("/deleteFromList", [authenticate, rateLimti, logDB], async functio
                 const listItemCount = await executeQuery(`select list_item_count from manga_lists where list_id = ${id_list_manga}`);
                 const kurang = listItemCount[0].list_item_count - 1;
                 await executeQuery(`update manga_lists set list_item_count = '${kurang}' where list_id = '${id_list_manga}'`);
-                return res.status(201).send({"message": "Berhasil menghapus manga dari list "});
+                return res.status(201).send({"message": "Berhasil menghapus manga dari list"});
             }
         }
 
