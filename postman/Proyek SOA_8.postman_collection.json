@@ -974,7 +974,7 @@
 			"response": []
 		},
 		{
-			"name": "Delete Anime From Anime List Copy",
+			"name": "Delete Anime From Anime List",
 			"event": [
 				{
 					"listen": "test",
@@ -986,7 +986,7 @@
 							"\r",
 							"pm.test(\"Message benar\", function(){\r",
 							"    let hasil = pm.response.json();\r",
-							"    pm.expect(hasil.message).contains(\"Berhasil menghapus manga dari list\");\r",
+							"    pm.expect(hasil.message).contains(\"Berhasil menghapus anime dari list\");\r",
 							"});"
 						],
 						"type": "text/javascript"
