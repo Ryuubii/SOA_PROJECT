@@ -105,7 +105,7 @@ router.post("/login", async function(req,res){
 
         const token = jwt.sign({user_id: cekUser[0].id, email: cekUser[0].email, username: username, api_key: cekUser[0].api_key}, key, {expiresIn: '30m'});
 
-        return res.status(200).send({
+        return res.status(201).send({
             "email": cekUser[0].email,
             "token": token
         })

@@ -36,6 +36,9 @@ router.get("/search", [authenticate, rateLimti, logDB], async function(req,res){
         let resutls = [];
         const {q} = req.query;
         const result = await axios.get(`https://api.jikan.moe/v4/anime?q='${q}'`);
+        if(result.data.data.length <= 0){
+            return res.status(404).send({"message":"Anime tidak ditemukan!"})
+        }
         for (let i = 0;i<result.data.data.length;i++){
             const tanggal_release = releaseDate(result.data.data[i].aired.from);
             const r = {
@@ -57,9 +60,7 @@ router.get("/detail/:id", [authenticate, rateLimti, logDB], async function(req,r
     try {
         const id = req.params.id;
         const result = await axios.get(`https://api.jikan.moe/v4/anime/${id}`);
-        console.log(result.data);
-        const tanggal_release = releaseDate(result.data.data[i].aired.from);
-        let item = [];
+        const tanggal_release = releaseDate(result.data.data.aired.from);
         const r = {
             "mal_id": result.data.data.mal_id,
             "title": result.data.data.title,
@@ -69,12 +70,13 @@ router.get("/detail/:id", [authenticate, rateLimti, logDB], async function(req,r
             "score": result.data.data.score,
             "release_date": tanggal_release
         }
-        item.push(r);
         // console.log(item);
-        return res.status(200).send(item);
+        return res.status(200).send(r);
     }
     catch (err){
-        return res.status(500).send(err.toString());
+        return res.status(404).send({
+            "message":"Anime tidak ditemukan!"
+        });
     }
 });
 
@@ -84,6 +86,9 @@ router.get("/readList", [authenticate, rateLimti, logDB], async function(req,res
        const userdata = req.userdata;
        const animeLists = [];
        const animeList = await executeQuery(`select * from anime_lists where user_id = ${userdata.user_id}`);
+       if(animeList.length <= 0){
+           return res.status(200).send({"message":"Tidak mempunyai list anime"})
+       }
        for(let i = 0;i<animeList.length;i++){
            const a = {
                "list_id": animeList[i].list_id,
@@ -145,7 +150,11 @@ router.put("/renameList", [authenticate, rateLimti, logDB], async function(req, 
         const userdata = req.userdata;
        const {list_id, nama_list} = req.body;
        const animeList = await executeQuery(`select * from anime_lists where list_id = ${list_id}`);
-
+       if(animeList.length<=0){
+           return res.status(200).send({
+               "message":"List anime tidak ditemukan!"
+           })
+       }
        if(animeList[0].user_id != userdata.user_id){
            return res.status(400).send({
                "message": "Bukan list anda!"
@@ -176,10 +185,20 @@ router.delete("/deleteList", [authenticate, rateLimti, logDB], async function(re
     }
 
     try {
+        const userdata = req.userdata;
         const {list_id} = req.body;
 
         const animeList = await executeQuery(`select * from anime_lists where list_id = ${list_id}`);
-
+        if(animeList.length<=0){
+            return res.status(200).send({
+                "message":"List anime tidak ditemukan!"
+            })
+        }
+        if(animeList[0].user_id != userdata.user_id){
+            return res.status(400).send({
+                "message": "Bukan list anda!"
+            });
+        }
         await executeQuery(`delete from anime_list_items where list_id = ${list_id}`);
         await executeQuery(`delete from anime_lists where list_id = ${list_id}`);
 
