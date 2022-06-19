@@ -1,0 +1,1433 @@
+{
+	"info": {
+		"_postman_id": "d2e03fe7-0d8d-439d-9d8b-183e35c2df0f",
+		"name": "Proyek SOA",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "2611829"
+	},
+	"item": [
+		{
+			"name": "Register",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status benar\", function(){\r",
+							"    pm.response.to.have.status(201);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Data Dikirim benar\", function(){\r",
+							"    let hasil = pm.response.json();\r",
+							"    pm.expect(hasil.resutls);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "email",
+							"value": "coba2@gmail.com",
+							"type": "text"
+						},
+						{
+							"key": "username",
+							"value": "coba2",
+							"type": "text"
+						},
+						{
+							"key": "nama",
+							"value": "coba1",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "coba1",
+							"type": "text"
+						},
+						{
+							"key": "confirm_password",
+							"value": "coba1",
+							"type": "text"
+						},
+						{
+							"key": "alamat",
+							"value": "jalan istts",
+							"type": "text"
+						},
+						{
+							"key": "no_telp",
+							"value": "12345678912",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/api/user/register",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"user",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status benar\", function(){\r",
+							"    pm.response.to.have.status(201);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Data Dikirim benar\", function(){\r",
+							"    let hasil = pm.response.json();\r",
+							"    pm.expect(hasil.resutls);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "coba1",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "coba1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/api/user/login",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"user",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Topup",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status benar\", function(){\r",
+							"    pm.response.to.have.status(201);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Data Dikirim benar\", function(){\r",
+							"    let hasil = pm.response.json();\r",
+							"    pm.expect(hasil.resutls);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6ImNvYmExQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoiY29iYTEiLCJhcGlfa2V5IjoiZU16NzFmczJHZkhmUTlIcDB5WWwiLCJpYXQiOjE2NTI1MTQzNDMsImV4cCI6MTY1MjUxNjE0M30.HJyWm_1fmBAEO_nH6LsVVLqmkFf6eGPmYPrKzawOLAs",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "jumlah",
+							"value": "10000",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/api/user/topup",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"user",
+						"topup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Profile Picture",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status benar\", function(){\r",
+							"    pm.response.to.have.status(201);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Data Yang Diubah benar\", function(){\r",
+							"    let hasil = pm.response.json();\r",
+							"    pm.expect(hasil.message);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6ImNvYmExQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoiY29iYTEiLCJhcGlfa2V5IjoiZU16NzFmczJHZkhmUTlIcDB5WWwiLCJpYXQiOjE2NTI1MTQzNDMsImV4cCI6MTY1MjUxNjE0M30.HJyWm_1fmBAEO_nH6LsVVLqmkFf6eGPmYPrKzawOLAs",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "profile_picture",
+							"type": "file",
+							"src": "/C:/Users/USER/Pictures/zinforevah.jfif"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/api/user/changeProfilePicture",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"user",
+						"changeProfilePicture"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search Anime",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status benar\", function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Message benar\", function(){\r",
+							"    let hasil = pm.response.json();\r",
+							"    pm.expect(hasil.resutls);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6ImNvYmExQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoiY29iYTEiLCJhcGlfa2V5IjoiZU16NzFmczJHZkhmUTlIcDB5WWwiLCJpYXQiOjE2NTI1MTQzNDMsImV4cCI6MTY1MjUxNjE0M30.HJyWm_1fmBAEO_nH6LsVVLqmkFf6eGPmYPrKzawOLAs",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:3000/api/anime/search?q=t",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"anime",
+						"search"
+					],
+					"query": [
+						{
+							"key": "q",
+							"value": "t"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search Manga",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status benar\", function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Message benar\", function(){\r",
+							"    let hasil = pm.response.json();\r",
+							"    pm.expect(hasil.resutls);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6ImNvYmExQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoiY29iYTEiLCJhcGlfa2V5IjoiZU16NzFmczJHZkhmUTlIcDB5WWwiLCJpYXQiOjE2NTQxMzg5NjYsImV4cCI6MTY1NDE0MDc2Nn0.dh3tuzywyf0qfcR0Ttw0Y3gB2RXuXI51HuhIB3R49gg",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:3000/api/manga/search?q=t",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"manga",
+						"search"
+					],
+					"query": [
+						{
+							"key": "q",
+							"value": "t"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search Manga Detail",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status benar\", function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Message benar\", function(){\r",
+							"    let hasil = pm.response.json();\r",
+							"    pm.expect(hasil.item);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6ImNvYmExQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoiY29iYTEiLCJhcGlfa2V5IjoiZU16NzFmczJHZkhmUTlIcDB5WWwiLCJpYXQiOjE2NTUzNjE3ODUsImV4cCI6MTY1NTM2MzU4NX0.XFGJdK1OSnB1TFfqg9QpSBvdnrSvLzi5XQSAo7q7ABY",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:3000/api/manga/detail/:id",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"manga",
+						"detail",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "122"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search Anime Detail",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status benar\", function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Message benar\", function(){\r",
+							"    let hasil = pm.response.json();\r",
+							"    pm.expect(hasil.item);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6ImNvYmExQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoiY29iYTEiLCJhcGlfa2V5IjoiZU16NzFmczJHZkhmUTlIcDB5WWwiLCJpYXQiOjE2NTI3MDc5MzAsImV4cCI6MTY1MjcwOTczMH0.LjHBhqbaBGPsSXRmDhJzxiiAXHOf2Smjf_JFD64VExs",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:3000/api/anime/detail/:id",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"anime",
+						"detail",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "12"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Anime List",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status benar\", function(){\r",
+							"    pm.response.to.have.status(201);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Data Dikirim benar\", function(){\r",
+							"    let hasil = pm.response.json();\r",
+							"    pm.expect(hasil.resutls);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6ImNvYmExQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoiY29iYTEiLCJhcGlfa2V5IjoiZU16NzFmczJHZkhmUTlIcDB5WWwiLCJpYXQiOjE2NTI1MTU1ODksImV4cCI6MTY1MjUxNzM4OX0.AO6sdmLpxeWG_OoQywlTekq8Quy0hIa1ZUVLW5yQxOc",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "nama_list",
+							"value": "anime1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/api/anime/addList",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"anime",
+						"addList"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Manga List",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status benar\", function(){\r",
+							"    pm.response.to.have.status(201);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Data Dikirim benar\", function(){\r",
+							"    let hasil = pm.response.json();\r",
+							"    pm.expect(hasil.resutls);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6ImNvYmExQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoiY29iYTEiLCJhcGlfa2V5IjoiZU16NzFmczJHZkhmUTlIcDB5WWwiLCJpYXQiOjE2NTQxMzk3MzAsImV4cCI6MTY1NDE0MTUzMH0.Oi0m4ymKUp9FdB32Wc1eFcLAk793p5rT0w8uUzSu1uM",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "nama_list",
+							"value": "manga1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/api/manga/addList",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"manga",
+						"addList"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Manga To Manga List",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status benar\", function(){\r",
+							"    pm.response.to.have.status(201);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Message benar\", function(){\r",
+							"    let hasil = pm.response.json();\r",
+							"    pm.expect(hasil.message);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6ImNvYmExQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoiY29iYTEiLCJhcGlfa2V5IjoiZU16NzFmczJHZkhmUTlIcDB5WWwiLCJpYXQiOjE2NTUzNjE3ODUsImV4cCI6MTY1NTM2MzU4NX0.XFGJdK1OSnB1TFfqg9QpSBvdnrSvLzi5XQSAo7q7ABY",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "api_key",
+							"value": "eMz71fs2GfHfQ9Hp0yYl",
+							"type": "text"
+						},
+						{
+							"key": "id_list_manga",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "id_manga",
+							"value": "134",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/api/manga/addToList",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"manga",
+						"addToList"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Anime To Anime List",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status benar\", function(){\r",
+							"    pm.response.to.have.status(201);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Message benar\", function(){\r",
+							"    let hasil = pm.response.json();\r",
+							"    pm.expect(hasil.message);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6ImNvYmExQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoiY29iYTEiLCJhcGlfa2V5IjoiZU16NzFmczJHZkhmUTlIcDB5WWwiLCJpYXQiOjE2NTI3NjE4NTUsImV4cCI6MTY1Mjc2MzY1NX0.8VjGWgDN74cUEs38pAocenekA15n6hX206Khb4OYdzE",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "api_key",
+							"value": "eMz71fs2GfHfQ9Hp0yYl",
+							"type": "text"
+						},
+						{
+							"key": "id_list_anime",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "id_anime",
+							"value": "1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/api/anime/addToList",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"anime",
+						"addToList"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Rename Anime List",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status benar\", function(){\r",
+							"    pm.response.to.have.status(201);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Data Yang Diubah benar\", function(){\r",
+							"    let hasil = pm.response.json();\r",
+							"    pm.expect(hasil.message);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6ImNvYmExQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoiY29iYTEiLCJhcGlfa2V5IjoiZU16NzFmczJHZkhmUTlIcDB5WWwiLCJpYXQiOjE2NTIxNjg2NjMsImV4cCI6MTY1MjE3MDQ2M30.c1sYhY1JVAoSrRnaWdc6bx315WYOSUrLWjXWHDscSJQ",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "list_id",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "nama_list",
+							"value": "anime2",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/api/anime/renameList",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"anime",
+						"renameList"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Rename Manga List",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status benar\", function(){\r",
+							"    pm.response.to.have.status(201);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Data Yang Diubah benar\", function(){\r",
+							"    let hasil = pm.response.json();\r",
+							"    pm.expect(hasil.message);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6ImNvYmExQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoiY29iYTEiLCJhcGlfa2V5IjoiZU16NzFmczJHZkhmUTlIcDB5WWwiLCJpYXQiOjE2NTQxMzk3MzAsImV4cCI6MTY1NDE0MTUzMH0.Oi0m4ymKUp9FdB32Wc1eFcLAk793p5rT0w8uUzSu1uM",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "list_id",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "nama_list",
+							"value": "manga2",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/api/manga/renameList",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"manga",
+						"renameList"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Anime List",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status benar\", function(){\r",
+							"    pm.response.to.have.status(201);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Data Yang Didelete benar\", function(){\r",
+							"    let hasil = pm.response.json();\r",
+							"    pm.expect(hasil.message);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6ImNvYmExQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoiY29iYTEiLCJhcGlfa2V5IjoiZU16NzFmczJHZkhmUTlIcDB5WWwiLCJpYXQiOjE2NTQxMzk3MzAsImV4cCI6MTY1NDE0MTUzMH0.Oi0m4ymKUp9FdB32Wc1eFcLAk793p5rT0w8uUzSu1uM",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "list_id",
+							"value": "4",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/api/anime/deleteList",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"anime",
+						"deleteList"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Manga List",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status benar\", function(){\r",
+							"    pm.response.to.have.status(201);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Data Yang Didelete benar\", function(){\r",
+							"    let hasil = pm.response.json();\r",
+							"    pm.expect(hasil.message);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6ImNvYmExQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoiY29iYTEiLCJhcGlfa2V5IjoiZU16NzFmczJHZkhmUTlIcDB5WWwiLCJpYXQiOjE2NTQxMzk3MzAsImV4cCI6MTY1NDE0MTUzMH0.Oi0m4ymKUp9FdB32Wc1eFcLAk793p5rT0w8uUzSu1uM",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "list_id",
+							"value": "2",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/api/manga/deleteList",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"manga",
+						"deleteList"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Manga From Manga List",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status benar\", function(){\r",
+							"    pm.response.to.have.status(201);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Message benar\", function(){\r",
+							"    let hasil = pm.response.json();\r",
+							"    pm.expect(hasil.message).contains(\"Berhasil menghapus manga dari list\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6ImNvYmExQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoiY29iYTEiLCJhcGlfa2V5IjoiZU16NzFmczJHZkhmUTlIcDB5WWwiLCJpYXQiOjE2NTUzNjE3ODUsImV4cCI6MTY1NTM2MzU4NX0.XFGJdK1OSnB1TFfqg9QpSBvdnrSvLzi5XQSAo7q7ABY",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "api_key",
+							"value": "eMz71fs2GfHfQ9Hp0yYl",
+							"type": "text"
+						},
+						{
+							"key": "id_list_manga",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "id_manga",
+							"value": "134",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/api/manga/deleteFromList",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"manga",
+						"deleteFromList"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Anime From Anime List Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status benar\", function(){\r",
+							"    pm.response.to.have.status(201);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Message benar\", function(){\r",
+							"    let hasil = pm.response.json();\r",
+							"    pm.expect(hasil.message).contains(\"Berhasil menghapus manga dari list\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6ImNvYmExQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoiY29iYTEiLCJhcGlfa2V5IjoiZU16NzFmczJHZkhmUTlIcDB5WWwiLCJpYXQiOjE2NTI3NjE4NTUsImV4cCI6MTY1Mjc2MzY1NX0.8VjGWgDN74cUEs38pAocenekA15n6hX206Khb4OYdzE",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "api_key",
+							"value": "eMz71fs2GfHfQ9Hp0yYl",
+							"type": "text"
+						},
+						{
+							"key": "id_list_anime",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "id_anime",
+							"value": "12",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/api/anime/deleteFromList",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"anime",
+						"deleteFromList"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Anime List",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status benar\", function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Data dikirim benar\", function(){\r",
+							"    let hasil = pm.response.json();\r",
+							"    pm.expect(hasil.mangaList);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6ImNvYmExQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoiY29iYTEiLCJhcGlfa2V5IjoiZU16NzFmczJHZkhmUTlIcDB5WWwiLCJpYXQiOjE2NTQxMzk1MjcsImV4cCI6MTY1NDE0MTMyN30.DZwCrcPX3jHdy_caZmH4Gs_1v2MjGj2l5_eh01MD6tQ",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": []
+				},
+				"url": {
+					"raw": "localhost:3000/api/anime/readList",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"anime",
+						"readList"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Manga List",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status benar\", function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Data dikirim benar\", function(){\r",
+							"    let hasil = pm.response.json();\r",
+							"    pm.expect(hasil.mangaList);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6ImNvYmExQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoiY29iYTEiLCJhcGlfa2V5IjoiZU16NzFmczJHZkhmUTlIcDB5WWwiLCJpYXQiOjE2NTQxMzk3MzAsImV4cCI6MTY1NDE0MTUzMH0.Oi0m4ymKUp9FdB32Wc1eFcLAk793p5rT0w8uUzSu1uM",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": []
+				},
+				"url": {
+					"raw": "localhost:3000/api/manga/readList",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"manga",
+						"readList"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Random Manga",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status benar\", function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Message benar\", function(){\r",
+							"    let hasil = pm.response.json();\r",
+							"    pm.expect(hasil.item);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6ImNvYmExQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoiY29iYTEiLCJhcGlfa2V5IjoiZU16NzFmczJHZkhmUTlIcDB5WWwiLCJpYXQiOjE2NTUzNjE3ODUsImV4cCI6MTY1NTM2MzU4NX0.XFGJdK1OSnB1TFfqg9QpSBvdnrSvLzi5XQSAo7q7ABY",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:3000/api/manga/random",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"manga",
+						"random"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Random Anime",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status benar\", function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Message benar\", function(){\r",
+							"    let hasil = pm.response.json();\r",
+							"    pm.expect(hasil.item);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6ImNvYmExQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoiY29iYTEiLCJhcGlfa2V5IjoiZU16NzFmczJHZkhmUTlIcDB5WWwiLCJpYXQiOjE2NTUzNjE3ODUsImV4cCI6MTY1NTM2MzU4NX0.XFGJdK1OSnB1TFfqg9QpSBvdnrSvLzi5XQSAo7q7ABY",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:3000/api/anime/random",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"anime",
+						"random"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Manga From Manga List",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status benar\", function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Message benar\", function(){\r",
+							"    let hasil = pm.response.json();\r",
+							"    pm.expect(hasil.item);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6ImNvYmExQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoiY29iYTEiLCJhcGlfa2V5IjoiZU16NzFmczJHZkhmUTlIcDB5WWwiLCJpYXQiOjE2NTUzNjE3ODUsImV4cCI6MTY1NTM2MzU4NX0.XFGJdK1OSnB1TFfqg9QpSBvdnrSvLzi5XQSAo7q7ABY",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "api_key",
+							"value": "eMz71fs2GfHfQ9Hp0yYl",
+							"type": "text"
+						},
+						{
+							"key": "id_list_manga",
+							"value": "1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/api/manga/readFromList",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"manga",
+						"readFromList"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Anime From Anime List",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status benar\", function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Message benar\", function(){\r",
+							"    let hasil = pm.response.json();\r",
+							"    pm.expect(hasil.item);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6ImNvYmExQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoiY29iYTEiLCJhcGlfa2V5IjoiZU16NzFmczJHZkhmUTlIcDB5WWwiLCJpYXQiOjE2NTI3NTk5MzksImV4cCI6MTY1Mjc2MTczOX0.RB9OcwNsIC1UADT4lpoO-ZdI0c2eJnL6PZ5y_7HRycE",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "api_key",
+							"value": "eMz71fs2GfHfQ9Hp0yYl",
+							"type": "text"
+						},
+						{
+							"key": "id_list_anime",
+							"value": "1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/api/anime/readFromList",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"anime",
+						"readFromList"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "upgrade Premium",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6ImNvYmExQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoiY29iYTEiLCJhcGlfa2V5IjoiZU16NzFmczJHZkhmUTlIcDB5WWwiLCJpYXQiOjE2NTM0NDc5MDMsImV4cCI6MTY1MzQ0OTcwM30.NGHOMCpEjITzzySHKD-u8p_l_iSHAxjoxE0j9xdnfdA",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:3000/api/user/upgradepremium",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"user",
+						"upgradepremium"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "bill",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozLCJlbWFpbCI6ImNvYmEzQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoiY29iYTMiLCJhcGlfa2V5IjoiQ0ZpUHc3eEo1TmJ1dm04cWtJVE4iLCJpYXQiOjE2NTM0NDcwNjAsImV4cCI6MTY1MzQ0ODg2MH0.JzcNNsgb5K0PHRdgW9UHyrR1w6jILIj938aVUn1ec00",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:3000/api/user/bill",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"user",
+						"bill"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "pay",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozLCJlbWFpbCI6ImNvYmEzQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoiY29iYTMiLCJhcGlfa2V5IjoiQ0ZpUHc3eEo1TmJ1dm04cWtJVE4iLCJpYXQiOjE2NTM0NDcwNjAsImV4cCI6MTY1MzQ0ODg2MH0.JzcNNsgb5K0PHRdgW9UHyrR1w6jILIj938aVUn1ec00",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:3000/api/user/pay",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"user",
+						"pay"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
