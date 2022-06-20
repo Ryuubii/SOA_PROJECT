@@ -161,6 +161,26 @@ router.put("/changeProfilePicture",[authenticate, logDB], upload.single("profile
    }
 });
 
+router.get("/seeProfile", [authenticate, logDB], async function(req,res){
+    try{
+        const userdata = req.userdata;
+        const user = await executeQuery(`select * from users where id = ${userdata.user_id}`);
+        return res.status(200).send({
+            "email": user[0].email,
+            'username': user[0].username,
+            "name": user[0].name,
+            "phone": user[0].phone,
+            "address": user[0].address,
+            "balance": user[0].balance,
+            "profile_picture": user[0].profile_picture,
+            "api_key": user[0].api_key
+        })
+    }
+    catch (err){
+        return res.status(500).send(err.toString());
+    }
+});
+
 router.post("/upgradepremium", [authenticate, logDB], async function(req,res){
     const userdata = req.userdata;
     try {
