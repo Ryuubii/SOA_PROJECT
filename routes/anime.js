@@ -234,7 +234,7 @@ router.post("/addToList", [authenticate, rateLimti, logDB], async function(req,r
         }
         else{
             const result = await axios.get(`https://api.jikan.moe/v4/anime/${id_anime}`);
-            const tanggal_release = releaseDate(result.data.data.published.from);
+            const tanggal_release = releaseDate(result.data.data.aired.from);
             let tanggal = "";
             let release_tanggal = "";
             if(tanggal_release != '-'){
@@ -331,7 +331,7 @@ router.delete("/deleteFromList", [authenticate, rateLimti, logDB], async functio
 router.get("/random", [authenticate, rateLimti, logDB], async function(req,res){
     try {
         const result = await axios.get(`https://api.jikan.moe/v4/random/anime`);
-        const tanggal_release = releaseDate(result.data.data.published.from);
+        const tanggal_release = releaseDate(result.data.data.aired.from);
         let item = [];
         const r = {
             "mal_id": result.data.data.mal_id,
